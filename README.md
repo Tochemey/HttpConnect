@@ -1,6 +1,6 @@
 # HttpConnect
 
-A minimal Rest client that uses around the ruby Net::Http library to make requests. It features a simple interface for making Web requests. It has been written and tested on an environment using ruby 2.0 or later.
+A minimal ruby Rest client that uses around the ruby Net::Http library to make requests. It features a simple interface for making Web requests. It has been written and tested on an environment using ruby 2.0 or later.
 
 ## Features
 
