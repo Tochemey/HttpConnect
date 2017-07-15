@@ -12,7 +12,7 @@ RSpec.describe HttpConnect do
     expect(HttpConnect::VERSION).not_to be nil
   end
 
-  it 'post an http request successfully' do
+  it 'creates an http request successfully' do
     path = '/messages/'
     content = { 'From' => 'me',
                 'To' => '+233244164819',
@@ -31,7 +31,7 @@ RSpec.describe HttpConnect do
     expect(response.body['Status'].to_i).to eq(0)
   end
 
-  it 'get the content of a resource successfully' do
+  it 'gets the content of a resource successfully' do
     path = '/account/profile/'
 
     rest_client = HttpConnect::BasicRestClient.new(BASE_URL)
@@ -44,7 +44,7 @@ RSpec.describe HttpConnect do
     expect(JSON.parse(response.body)['EmailAddress']).to eq('arsene@smsgh.com')
   end
 
-  it 'update the content of a resource successfully' do
+  it 'updates the content of a resource successfully' do
     path = 'account/settings/'
 
     rest_client = HttpConnect::BasicRestClient.new(BASE_URL)
