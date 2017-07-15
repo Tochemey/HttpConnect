@@ -42,16 +42,25 @@ module HttpConnect
         "Basic #{Base64.encode64(username + ':' + password)}".chomp
     end
 
-    # execute()
+    # execute(). It helps execute an Http request
+    # one can use the following object:
+    #     - HttpPost
+    #     - HttpGet
+    #     - HttpDelete
+    #     - HttpPut
     # @param http_webrequest the HttpRequest object
+    # @return HttpResponse object or an Http Error object
     def execute(http_webrequest)
+      raise ArgumentError, 'http_webrequest is not a subclass of HttpRequest' 
+          unless http_webrequest.is_a? HttpRequest
       do_http_request(http_webrequest.path,
                       http_webrequest.http_method,
                       http_webrequest.content_type,
                       http_webrequest.accept, http_webrequest.content)
     end
 
-    # post()
+    # post(). It helps send an HTTP POST request
+    # to create the specified resource
     # @param path the resource path
     # @param content_type the http request content type
     # @param accept the expected mime type of the response
@@ -60,7 +69,8 @@ module HttpConnect
       execute HttpConnect::HttpPost.new(path, content_type, accept, content)
     end
 
-    # put()
+    # put(). It helps send an HTTP PUT request
+    # to create or modified the specified resource
     # @param path the resource path
     # @param content_type the http request content type
     # @param accept the expected mime type of the response
@@ -69,7 +79,8 @@ module HttpConnect
       execute HttpConnect::HttpPut.new(path, content_type, accept, content)
     end
 
-    # get()
+    # get(). It helps send an HTTP GET request
+    # to fetch the specified resource
     # @param path the resource path
     # @param content_type the http request content type
     # @param accept the expected mime type of the response
@@ -78,7 +89,8 @@ module HttpConnect
       execute HttpConnect::HttpGet.new(path, nil, accept, content)
     end
 
-    # delete()
+    # delete(). It helps send an HTTP DELETE request
+    # to delete the specified resource
     # @param path the resource path
     # @param content_type the http request content type
     # @param accept the expected mime type of the response

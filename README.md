@@ -1,8 +1,18 @@
 # HttpConnect
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/http_connect`. To experiment with that code, run `bin/console` for an interactive prompt.
+A minimal Rest client that uses around the ruby Net::Http library to make requests. It features a simple interface for making Web requests. It has been written and tested on an environment using ruby 2.0 or later.
 
-TODO: Delete this and the text above, and describe your gem
+## Features
+
+Currently the following HTTP verbs are supported
+
+* POST
+* GET
+* DELETE
+* PUT
+
+Also it handle both https and http and one can use the basic authentication mode against a web resource
+that accepts basic authentication mode.
 
 ## Installation
 
@@ -22,7 +32,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Some unit tests have been provided as examples. These unit tests are done against the 
+[Hubtel Integration Platform APIs](https://developers.hubtel.com/).
 
 ## Development
 
