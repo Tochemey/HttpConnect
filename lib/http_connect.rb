@@ -39,7 +39,7 @@ module HttpConnect
     # @param password the password credential
     def set_basic_auth(username, password)
       @custom_headers['Authorization'] =
-        "Basic #{Base64.encode64(username + ':' + password)}".chomp
+          "Basic #{Base64.encode64(username + ':' + password)}".chomp
     end
 
     # execute(). It helps execute an Http request
@@ -51,12 +51,12 @@ module HttpConnect
     # @param http_webrequest the HttpRequest object
     # @return HttpResponse object or an Http Error object
     def execute(http_webrequest)
-      raise ArgumentError, 'http_webrequest is not a subclass of HttpRequest' 
-          unless http_webrequest.is_a? HttpRequest
-      do_http_request(http_webrequest.path,
-                      http_webrequest.http_method,
-                      http_webrequest.content_type,
-                      http_webrequest.accept, http_webrequest.content)
+      (http_webrequest.is_a? HttpRequest) ?
+          do_http_request(http_webrequest.path,
+                          http_webrequest.http_method,
+                          http_webrequest.content_type,
+                          http_webrequest.accept, http_webrequest.content) :
+          raise('http_webrequest is not a subclass of HttpRequest')
     end
 
     # post(). It helps send an HTTP POST request
@@ -136,11 +136,13 @@ module HttpConnect
 
     def handle_content(request, content_type, content)
       case content_type
-      when DEFAULT_CONTENT_TYPE then
-        request.body = content.to_json
-        request.add_field 'Content-Length', request.body.size
-      when FORM_DATA then request.set_form_data(content)
-      else request.set_form_data(content)
+        when DEFAULT_CONTENT_TYPE then
+          request.body = content.to_json
+          request.add_field 'Content-Length', request.body.size
+        when FORM_DATA then
+          request.set_form_data(content)
+        else
+          request.set_form_data(content)
       end
     end
 
@@ -163,11 +165,16 @@ module HttpConnect
     # @return the http request object
     def extract_request(uri, http_method)
       request = case http_method
-                when 'POST' then Net::HTTP::Post.new(uri)
-                when 'GET' then Net::HTTP::Get.new(uri)
-                when 'DELETE' then Net::HTTP::Delete.new(uri)
-                when 'PUT' then Net::HTTP::Put.new(uri)
-                else raise 'invalid http method'
+                  when 'POST' then
+                    Net::HTTP::Post.new(uri)
+                  when 'GET' then
+                    Net::HTTP::Get.new(uri)
+                  when 'DELETE' then
+                    Net::HTTP::Delete.new(uri)
+                  when 'PUT' then
+                    Net::HTTP::Put.new(uri)
+                  else
+                    raise 'invalid http method'
                 end
       request
     end
@@ -176,11 +183,11 @@ module HttpConnect
     # @param response the Net::HTTPResponse object to extract
     def extract_response(response)
       case response
-      when Net::HTTPSuccess, Net::HTTPRedirection then
-        HttpConnect::HttpResponse.new(response.code.to_i,
-                                      response.body, response.to_hash)
-      else
-        response.value
+        when Net::HTTPSuccess, Net::HTTPRedirection then
+          HttpConnect::HttpResponse.new(response.code.to_i,
+                                        response.body, response.to_hash)
+        else
+          response.value
       end
     end
   end

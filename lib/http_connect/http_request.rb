@@ -16,7 +16,7 @@ module HttpConnect
       @content = content
       @content_type = content_type
 
-      @path += '?' + URI.encode_www_form(@content) if %w[GET DELETE].include? @http_method
+      @path << "? #{URI.encode_www_form(@content)}" if %w[GET DELETE].include? @http_method
     end
   end
 end
